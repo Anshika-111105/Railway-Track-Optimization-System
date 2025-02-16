@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Network Optimization</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Railway Network Optimization</h1>
+    </header>
+    
+    <section class="container">
+        <h2>Optimize Your Railway Network</h2>
+        <p>Find the shortest travel routes, minimize active tracks, and maximize train flow.</p>
+        
+        <form id="network-form">
+            <label for="start">Start Station:</label>
+            <input type="text" id="start" placeholder="Enter Start Station" required>
+            
+            <label for="end">End Station:</label>
+            <input type="text" id="end" placeholder="Enter End Station" required>
+            
+            <button type="submit">Optimize Route</button>
+        </form>
+
+        <div id="result">
+            <!-- Shortest path result will be displayed here -->
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('network-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let start = document.getElementById('start').value;
+            let end = document.getElementById('end').value;
+
+            fetch('/optimize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ start: start, end: end })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('result').innerHTML = `<p style="color:red;">${data.error}</p>`;
+                } else {
+                    document.getElementById('result').innerHTML = 
+                        `<p>Shortest Path: <strong>${data.path.join(" → ")}</strong></p>
+                        <p>Distance: <strong>${data.distance} km</strong></p>`;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
