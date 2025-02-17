@@ -120,7 +120,6 @@ class RailwayNetwork:
         nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray', node_size=2000)
         nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
         plt.show()
-
 # Example usage
 stations = ['A', 'B', 'C', 'D', 'E']
 network = RailwayNetwork(stations)
